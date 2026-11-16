@@ -1,0 +1,20 @@
+include README.md README.en.md README.zh-CN.md LICENSE THIRD_PARTY_NOTICES.md SECURITY.md CONTRIBUTING.md CHANGELOG.md
+include package.json package-lock.json .gitignore
+recursive-include src/agent_library/web *
+recursive-include tests *.py *.cjs
+recursive-include examples *.py *.md
+recursive-include scripts *.py *.command *.bat
+recursive-include docs *.md *.jpg
+recursive-include .github/workflows *.yml
+prune .venv
+prune node_modules
+prune libraries
+prune data
+prune media
+prune transcripts
+prune handoffs
+prune backups
+prune build
+prune dist
+global-exclude __pycache__ *.py[cod] *.sqlite *.sqlite3 *.db *.zip *.part *.log
+global-exclude .DS_Store Thumbs.db

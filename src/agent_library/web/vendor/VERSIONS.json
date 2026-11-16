@@ -1,0 +1,74 @@
+[
+  {
+    "name": "markdown-it",
+    "version": "15.0.3",
+    "registry": "https://registry.npmjs.org/",
+    "integrity": "sha512-+Az7Ojz3iRGu8KYMvJ6xVhvrxP3eE+vEtJX75Ow88XBpcQNV/0lGX5ZynIIBftREo4DC2jsveAMDaeltmm8QvQ==",
+    "files": [
+      {
+        "file": "markdown-it.min.js",
+        "npm_member": "dist/browser/markdown-it.umd.min.js",
+        "bytes": 100786,
+        "sha256": "391f2aa638e75e6c7859d0a5c5650ef0956722a45998f17e05b83bc655778e1e"
+      },
+      {
+        "file": "markdown-it.LICENSE",
+        "npm_member": "LICENSE",
+        "bytes": 1073,
+        "sha256": "792c48c5a849a15fdf9e37e8bcf9e6d1dd13b32b46c642a748a0a46a9919d473"
+      }
+    ]
+  },
+  {
+    "name": "dompurify",
+    "version": "3.4.17",
+    "registry": "https://registry.npmjs.org/",
+    "integrity": "sha512-B/pSlYVHQ58kqISD/yDjuJ1yfzI34m1gF4lAod2bwSRhiN4K5Cl3H8Af7hqB2PmTL911tdEudnnXn5FnhRoz0w==",
+    "files": [
+      {
+        "file": "purify.min.js",
+        "npm_member": "dist/purify.min.js",
+        "bytes": 29828,
+        "sha256": "cd37898f9782adf54820c413191b5691803f0f137c799d6edcfd38523b4c2c31"
+      },
+      {
+        "file": "dompurify.LICENSE",
+        "npm_member": "LICENSE",
+        "bytes": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "file": "dompurify.LICENSE-MPL",
+        "npm_member": "LICENSE-MPL",
+        "bytes": 16726,
+        "sha256": "fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85"
+      }
+    ]
+  },
+  {
+    "name": "@highlightjs/cdn-assets",
+    "version": "11.12.0",
+    "registry": "https://registry.npmjs.org/",
+    "integrity": "sha512-KvOKXODaiFmId9xaq3xc5xCL66wVLUuOngDbO9B/kewbFTqdGbn2nJxNhN3H5R1cgDTVj6R8vH0zgiNDEGjpDw==",
+    "files": [
+      {
+        "file": "highlight.min.js",
+        "npm_member": "highlight.min.js",
+        "bytes": 129254,
+        "sha256": "8ab71eb09c51f501e5e25157d9cff100e46cc29bcbfc744d0b746d451fca7f53"
+      },
+      {
+        "file": "highlight-github.min.css",
+        "npm_member": "styles/github.min.css",
+        "bytes": 1309,
+        "sha256": "3a9a5def8b9c311e5ae43abde85c63133185eed4f0d9f67fea4b00a8308cf066"
+      },
+      {
+        "file": "highlight.LICENSE",
+        "npm_member": "LICENSE",
+        "bytes": 1514,
+        "sha256": "6c081431591d9df696c82dc598fe1423765b8a299b200ed00b281afd0f64c490"
+      }
+    ]
+  }
+]
