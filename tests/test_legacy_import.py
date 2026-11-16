@@ -90,6 +90,35 @@ class LegacyImportTests(unittest.TestCase):
     def migrate(self):
         return migrate_legacy_archive(self.store, self.archive, self.source, name='Fictional migrated collection')
 
+    def test_snapshot_reader_closes_before_removal_and_publication(self):
+        # Unix permits removing open SQLite files; Windows does not. Check the
+        # resource boundary explicitly so this regression is caught everywhere.
+        readers = []
+        readonly = schema.readonly
+        unlink = Path.unlink
+        removed = []
+
+        def track_reader(path):
+            connection = readonly(path)
+            if Path(path).name == '.legacy-snapshot.sqlite':
+                readers.append(connection)
+            return connection
+
+        def remove_snapshot(path, *args, **kwargs):
+            if path.name == '.legacy-snapshot.sqlite':
+                self.assertEqual(len(readers), 1)
+                for connection in readers:
+                    with self.assertRaisesRegex(sqlite3.ProgrammingError, 'closed'):
+                        connection.execute('SELECT 1')
+                removed.append(path)
+            return unlink(path, *args, **kwargs)
+
+        with patch('agent_library.legacy.schema.readonly', side_effect=track_reader), patch.object(Path, 'unlink', remove_snapshot):
+            result = self.migrate()
+        self.assertEqual(len(removed), 1)
+        self.assertTrue(result['verified'])
+        self.assertFalse((self.store.generation(result['id']) / '.legacy-snapshot.sqlite').exists())
+
     def test_exact_rows_duplicate_native_ids_and_empty_sessions_survive(self):
         before = self.tree(self.source)
         result = self.migrate()

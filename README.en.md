@@ -21,6 +21,9 @@ Product names describe compatible sources and handoff destinations only.
 Requires Python 3.11+ with SQLite. macOS, Windows and Linux are the target platforms; see the
 [local verification record](docs/QA_RELEASE.md) for actual coverage. Node.js is only for development.
 
+[Download the source ZIP](https://github.com/jovequli/agent-library/archive/refs/heads/main.zip),
+extract it, then run these commands from the project directory:
+
 ```sh
 python3 -m venv .venv
 # On Windows, use py -3 -m venv .venv.

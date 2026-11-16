@@ -1,5 +1,5 @@
 include README.md README.en.md README.zh-CN.md LICENSE THIRD_PARTY_NOTICES.md SECURITY.md CONTRIBUTING.md CHANGELOG.md
-include package.json package-lock.json .gitignore
+include package.json package-lock.json .gitignore .gitattributes
 recursive-include src/agent_library/web *
 recursive-include tests *.py *.cjs
 recursive-include examples *.py *.md

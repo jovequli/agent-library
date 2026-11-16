@@ -67,6 +67,13 @@ def build_parser():
 
 
 def main(argv=None):
+    # Windows pipes otherwise inherit a legacy code page, which cannot represent
+    # many conversation texts. Keep command output and diagnostics portable UTF-8.
+    # Embedded callers may replace these streams with StringIO-like objects.
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:
+            reconfigure(encoding="utf-8", errors=stream.errors)
     argv = list(sys.argv[1:] if argv is None else argv)
     # Accept --home at either end, so the desktop and documented CLI agree.
     for index, item in enumerate(argv):

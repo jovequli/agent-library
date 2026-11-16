@@ -22,9 +22,31 @@ class WorkflowTests(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name)
 
-    def cli(self, *args):
-        completed = subprocess.run([sys.executable, "-m", "agent_library", "--home", str(self.root / "home"), *args], capture_output=True, text=True, check=True)
-        return json.loads(completed.stdout)
+    def run_cli(self, *args, env=None):
+        completed = subprocess.run([sys.executable, "-m", "agent_library", "--home", str(self.root / "home"), *args], capture_output=True, encoding="utf-8", env=env)
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        return completed.stdout
+
+    def cli(self, *args, env=None):
+        return json.loads(self.run_cli(*args, env=env))
+
+    def test_unicode_cli_output_survives_legacy_host_codepage(self):
+        env = {**os.environ, "PYTHONIOENCODING": "cp1252"}
+        name = "虚构档案 · Unicode 🌱"
+        library = self.cli("create", name, env=env)
+        self.assertEqual(library["name"], name)
+        source = create_demo_source(self.root / "source")
+        self.cli("import", library["id"], str(source), env=env)
+        found = self.cli("search", library["id"], "虚构测试需求", env=env)
+        self.assertEqual(found["total"], 1)
+        self.assertIn("虚构测试需求", found["items"][0]["preview"])
+        prompt = self.run_cli("handoff", library["id"], found["items"][0]["id"], "--lang", "zh-CN", env=env)
+        self.assertIn("任务目标", prompt)
+        missing = self.root / "不存在的备份.zip"
+        result = subprocess.run([sys.executable, "-m", "agent_library", "verify-backup", str(missing)], capture_output=True, encoding="utf-8", env=env)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("Agent Library:", result.stderr)
+        self.assertIn(missing.name, result.stderr)
 
     def test_cli_import_search_handoff_backup_and_relocated_restore(self):
         source = create_demo_source(self.root / "source")

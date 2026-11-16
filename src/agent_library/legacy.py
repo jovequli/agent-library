@@ -442,30 +442,32 @@ def migrate_legacy_archive(store, archive_root: Path, source_root: Path, name="C
                         raise ValueError("Legacy message content did not pass exact verification.")
                 finally:
                     database.close()
-                snapshot_db.unlink()
-                update("validate", 91)
-                schema.validate_database(staging / "archive.sqlite3")
-                sources.verify_unchanged()
-                source_manifest = {"format": "agent-library.legacy-source-manifest", "version": 1, "created_at": now(),
-                    "files": sources.records, "skipped": sources.skipped, "unchanged_source": True}
-                manifest_relative = "sources/legacy_source_manifest.json"
-                write_json(staging / manifest_relative, source_manifest)
-                receipt = {"id": stable_id(original_hash, digest.hexdigest()), "dataset": _DATASET, "provider": "mixed", "requested_provider": "legacy_archive",
-                    "parser_version": __version__, "imported_at": now(), "sha256": original_hash, "payload_sha256": digest.hexdigest(), "source_manifest": manifest_relative}
-                write_json(staging / "imports.json", [receipt])
-                report = {**counts, "media": len(media_records), "exact_media_occurrences": exact_count,
-                    "session_attachments": attachment_count, "missing_media_references": missing_count,
-                    "providers": dict(provider_counts), "kinds": dict(kind_counts), "source_files": len(sources.records),
-                    "source_bytes": sum(item["size"] for item in sources.records), "source_manifest": manifest_relative,
-                    "payload_sha256": digest.hexdigest(), "original_database_sha256": original_hash, "warnings": warnings,
-                    "verified": True, "unchanged_source": True}
-                write_json(staging / "report.json", report)
-                update("publish", 99)
-                store.publish(library["id"], staging)
-                active = store.generation(library["id"])
-                result = {**library, "library_id": library["id"], **report, "report_path": str(active / "report.json")}
-                update("complete", 100)
-                return result
+            # Windows requires the snapshot reader to close before deletion or
+            # the generation directory is renamed during publication.
+            snapshot_db.unlink()
+            update("validate", 91)
+            schema.validate_database(staging / "archive.sqlite3")
+            sources.verify_unchanged()
+            source_manifest = {"format": "agent-library.legacy-source-manifest", "version": 1, "created_at": now(),
+                "files": sources.records, "skipped": sources.skipped, "unchanged_source": True}
+            manifest_relative = "sources/legacy_source_manifest.json"
+            write_json(staging / manifest_relative, source_manifest)
+            receipt = {"id": stable_id(original_hash, digest.hexdigest()), "dataset": _DATASET, "provider": "mixed", "requested_provider": "legacy_archive",
+                "parser_version": __version__, "imported_at": now(), "sha256": original_hash, "payload_sha256": digest.hexdigest(), "source_manifest": manifest_relative}
+            write_json(staging / "imports.json", [receipt])
+            report = {**counts, "media": len(media_records), "exact_media_occurrences": exact_count,
+                "session_attachments": attachment_count, "missing_media_references": missing_count,
+                "providers": dict(provider_counts), "kinds": dict(kind_counts), "source_files": len(sources.records),
+                "source_bytes": sum(item["size"] for item in sources.records), "source_manifest": manifest_relative,
+                "payload_sha256": digest.hexdigest(), "original_database_sha256": original_hash, "warnings": warnings,
+                "verified": True, "unchanged_source": True}
+            write_json(staging / "report.json", report)
+            update("publish", 99)
+            store.publish(library["id"], staging)
+            active = store.generation(library["id"])
+            result = {**library, "library_id": library["id"], **report, "report_path": str(active / "report.json")}
+            update("complete", 100)
+            return result
     except BaseException:
         shutil.rmtree(store.root(library["id"]), ignore_errors=True)
         raise

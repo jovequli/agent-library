@@ -19,6 +19,9 @@ Agent Library 是一个本地优先的对话图书馆：把不同工具的历史
 需要 Python 3.11 或更新版本及其 SQLite。目标平台为 macOS、Windows 和 Linux；
 实际验证范围见[本地验证记录](docs/QA_RELEASE.md)。日常使用不需要 Node.js。
 
+先[下载源码 ZIP](https://github.com/jovequli/agent-library/archive/refs/heads/main.zip)，
+解压后在项目目录中运行：
+
 ```sh
 python3 -m venv .venv
 # Windows 改用 py -3 -m venv .venv。

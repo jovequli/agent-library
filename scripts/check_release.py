@@ -18,7 +18,7 @@ import zipfile
 TOP_FILES = {
     'README.md', 'README.en.md', 'README.zh-CN.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md',
     'SECURITY.md', 'CONTRIBUTING.md', 'CHANGELOG.md', 'pyproject.toml',
-    'package.json', 'package-lock.json', '.gitignore', 'MANIFEST.in', 'AGENTS.md',
+    'package.json', 'package-lock.json', '.gitignore', '.gitattributes', 'MANIFEST.in', 'AGENTS.md',
 }
 IGNORE_DIRS = {'.git', '.venv', 'venv', 'node_modules', 'build', 'dist', '__pycache__', '.pytest_cache'}
 FORBIDDEN_PARTS = {'data', 'libraries', 'transcripts', 'handoffs', 'backups', '.agent-library',

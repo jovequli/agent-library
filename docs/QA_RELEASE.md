@@ -6,10 +6,10 @@ temporary data homes. No real user archive is required for these checks.
 ## Environments
 
 Locally exercised on macOS with Python 3.14.6, SQLite 3.53.4, and Node.js 26.7.0.
-The configured GitHub Actions matrix covers Linux/Python 3.11 and 3.14,
-macOS/Python 3.13, and Windows/Python 3.13. Those remote jobs have not run during
-this local preparation. A CI definition is not a claim that all target platforms
-have passed.
+The GitHub Actions matrix covers Linux/Python 3.11 and 3.14,
+macOS/Python 3.13, and Windows/Python 3.13, plus renderer and distribution jobs.
+Actual results for each published revision are available in
+[Checks](https://github.com/jovequli/agent-library/actions/workflows/ci.yml).
 
 ## Checks performed locally
 
@@ -31,11 +31,11 @@ have passed.
 - The installed HTTP application served its reader, API state, a packaged font,
   and a packaged third-party license successfully from loopback. That test
   server was stopped after verification.
-- The local release regression set contains 100 Python tests, plus 54 JavaScript
+- The local release regression set contains 102 Python tests, plus 54 JavaScript
   tests: 16 Markdown, 20 mathematics, and 18 interface workflow checks. Fixtures
   are synthetic. These suites include importer variants, standalone JSON input,
   library isolation, incremental updates, storage/backup workflows, handoff
-  round trips, real HTTP boundaries, lossless legacy migration and separate task galleries. All 154 checks passed locally without
+  round trips, real HTTP boundaries, lossless legacy migration and separate task galleries. All 156 checks passed locally without
   warnings. Rerun the set after source changes.
 - Actual browser QA using only the fictional demo verified opening at the
   latest message, stable upward history scrolling, preview without moving the

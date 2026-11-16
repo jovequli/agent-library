@@ -1,0 +1,3 @@
+# Keep source scripts portable and preserve audited upstream bytes on checkout.
+* text=auto eol=lf
+/src/agent_library/web/vendor/** -text
